@@ -1,6 +1,12 @@
 # base62-token.js
 
-Generate &amp; Verify GitHub-style &amp; npm-style Secure Base62 Tokens
+Generate &amp; Verify [GitHub-style][gh-tokens] &amp; [npm-style][npm-tokens]
+Secure Base62 Tokens
+
+[gh-tokens]:
+  https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
+[npm-tokens]:
+  https://github.blog/2021-09-23-announcing-npms-new-access-token-format/
 
 Works in Vanilla JS (Browsers), Node.js, and Webpack.
 
