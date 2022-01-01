@@ -1,0 +1,32 @@
+{
+  "name": "base62-token",
+  "version": "1.0.0",
+  "description": "Generate & Verify GitHub-style & npm-style Base62 Tokens",
+  "main": "base62-token.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therootcompany/base62-token.js.git"
+  },
+  "keywords": [
+    "base62",
+    "tokens",
+    "github",
+    "npm",
+    "token",
+    "crc32",
+    "crc",
+    "alphanumeric"
+  ],
+  "author": "AJ ONeal <aj@therootcompany.com> (https://therootcompany.com/)",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/therootcompany/base62-token.js/issues"
+  },
+  "homepage": "https://github.com/therootcompany/base62-token.js#readme",
+  "dependencies": {
+    "crc-32": "^1.2.0"
+  }
+}
