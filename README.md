@@ -10,11 +10,11 @@ Secure Base62 Tokens
 
 Works in Vanilla JS (Browsers), Node.js, and Webpack.
 
-# Online Demo
+# [Online Demo](https://therootcompany.github.io/base62-token.js/)
 
 See the online base62 token generator & verifier in action:
 
-- [therootcompany.github.io/base62-token.js/](https://therootcompany.github.io/base62-token.js/).
+- <https://therootcompany.github.io/base62-token.js/>
 
 # Install
 
