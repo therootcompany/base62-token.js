@@ -63,14 +63,14 @@ var verified = b62Token.verify(token);
 # API
 
 ```txt
-Base62Token                       // Shuffles a given alphabet to create a random
-  .generateDictionary(            // dictionary (uses standard base62 / alphanumeric
-    alphabet = "0..9A..Za..z"     // by default).
+Base62Token                       // Shuffles a given alphabet to create a
+  .generateDictionary(            // random dictionary (uses standard base62
+    alphabet = "0..9A..Za..z"     // / alphanumeric by default).
   );
 
 Base62Token.create(dictionary);   // Creates a token generator and verifier
-                                  // 'dictionary' is any 62-character alphabet.
-                                  // Returns a generator / verifier (b62Token) instance.
+                                  // 'dictionary' is any 62-char alphabet.
+                                  // Returns a generator / verifier instance.
 
 b62Token.generate(prefix, length); // Returns token string.
 b62Token.verify(token);            // Returns true / false.
@@ -80,21 +80,22 @@ b62Token.verify(token);            // Returns true / false.
 Base62Token.BITS_PER_CHARACTER    // 5.954196310386876
                                   // For reference: Base64 is an even 6
 
-Base62Token.calcMinChars(bitlen); // calculate the minimum number of chars needed to
-                                  // guarantee the given bit entropy.
-                                  // ex: 30 chars needed for 173-bits of entropy
+Base62Token.calcMinChars(bitlen); // calculate the minimum number of chars
+                                  // needed to guarantee the target entropy.
+                                  // ex: 173-bit entropy needs 30 chars
 
-Base62Token.calcMinChars(bitlen); // calculate the minimum number of chars needed to
-                                  // guarantee the given bit entropy.
-                                  // ex: 30 chars needed for 173-bits of entropy
+Base62Token.calcMinBits(charlen); // calculate the minimum entropy guaranteed
+                                  // by the given number of characters
+                                  // ex: 30 chars guarantees 178-bit entropy.
 
-Base62Token.checksum(dict, str);  // runs an (unsigned) CRC-32 checksum on the given string
-                                  // (where each character is considered a single byte)
-                                  // and returns the base62 encoded unsigned int
+Base62Token.checksum(dict, str);  // generates an (unsigned) CRC-32 checksum
+                                  // for the given string (where each char is
+                                  // treated as a single byte).
+                                  // Returns the Base62 encoded unsigned int.
 
-Base62Token.encode(dict, n, pad); // encodes a 32-bit integer (i.e. CRC-32 checksum)
-                                  // as Base62 in the given dictionary, with a default
-                                  // pad of 6 (guarantees a full 32-bits).
+Base62Token.encode(dict, n, pad); // encode a 32-bit int (i.e. CRC-32 checksum)
+                                  // as Base62 in the given dictionary, with a
+                                  // default pad of 6 (guarantees 32-bits).
 ```
 
 # Standard vs Secure Base62 Dictionaries
