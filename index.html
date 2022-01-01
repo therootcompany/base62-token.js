@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encode Base62 Online</title>
+    <link rel="stylesheet" type="text/css" href="vendor/mvp.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="./">base62-token.js</a>
+        <ul>
+          <li>
+            <a
+              href="https://github.com/therootcompany/base62.js"
+              target="_blank"
+              >Source on GitHub</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <header><h2>GitHub- & npm-style Base62 Tokens</h2></header>
+        <form data-id="generate" style="width: 40%; margin: 1em">
+          <header><h2>Generate</h2></header>
+          <label
+            >Base62 Dictionary:
+            <textarea
+              style="width: 100%; box-sizing: border-box"
+              rows="2"
+              name="gen-dict"
+              placeholder="ex: a randomized base62 dictionary (0-9, a-z, A-Z)"
+            >
+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</textarea
+            >
+          </label>
+          <label
+            >Choose your token prefix (ex: <code>ghp_</code>, etc):
+            <input
+              name="prefix"
+              type="text"
+              value="b62_"
+              placeholder="ex: ghp_, gho_, ghr_, ..."
+            />
+          </label>
+          <label
+            >Choose your token length (<span class="js-entropy">178</span>-bit
+            entropy):
+            <input
+              name="length"
+              type="number"
+              value="30"
+              step="1"
+              min="1"
+              max="9000"
+              placeholder="ex: 30"
+            />
+          </label>
+
+          <label
+            >Token:
+            <input
+              type="text"
+              name="gen-token"
+              placeholder="ex: b62_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcccccc"
+              style="width: 100%; box-sizing: border-box"
+              disabled="disabled"
+            />
+          </label>
+          <button name="generate">Generate</button>
+        </form>
+
+        <form data-id="verify" style="width: 40%; margin: 1em">
+          <header><h2>Verify</h2></header>
+          <label
+            >Base62 Dictionary:
+            <textarea
+              style="width: 100%; box-sizing: border-box"
+              rows="2"
+              name="ver-dict"
+              placeholder="ex: a randomized base62 dictionary (0-9, a-z, A-Z)"
+            >
+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</textarea
+            >
+          </label>
+          <label
+            >Token:
+            <input
+              name="ver-token"
+              type="text"
+              placeholder="ex: b62_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcccccc"
+              style="width: 100%; box-sizing: border-box"
+            />
+          </label>
+          <button name="verify">Verify</button>
+        </form>
+      </section>
+      <section>
+        <header><h2>Installation &amp; Usage</h2></header>
+        <aside style="width: 80%">
+          Browser JavaScript:
+          <pre><code
+>&lt;script src="https://unpkg.com/crc-32"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/base62-token"&gt;&lt;/script&gt;</code></pre>
+          <pre><code>var Base62Token = window.Base62Token;</code></pre>
+          Node.js &amp; Webpack:
+          <pre><code>npm install --save base62-token</code></pre>
+          <pre><code>let Base62Token = require('base62-token');</code></pre>
+          Usage:
+          <small>
+            Try it out in your console!<br />
+            Just hit <code>Cmd + Shift + I</code> to open the JavaScript
+            Inspector.
+          </small>
+          <pre><code>// Save your dictionary!
+var dict = Base62Token.generateDictionary();
+
+var b62Token = Base62Token.create(dict);
+var token = b62Token.generate("abc_", 30);
+var verified = b62Token.verify(token);</code></pre>
+        </aside>
+      </section>
+    </main>
+    <footer>
+      <hr />
+      <p>Made by <a href="https://github.com/therootcompany/">Root</a></p>
+    </footer>
+    <script src="./vendor/crc32.js"></script>
+    <script src="./base62-token.js"></script>
+    <script src="./browser-demo.js"></script>
+  </body>
+</html>

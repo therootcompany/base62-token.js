@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Generate & Verify GitHub-style & npm-style Base62 Tokens",
   "main": "base62-token.js",
+  "files": [],
   "scripts": {
     "test": "node test.js"
   },
