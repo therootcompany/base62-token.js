@@ -10,6 +10,12 @@ Secure Base62 Tokens
 
 Works in Vanilla JS (Browsers), Node.js, and Webpack.
 
+# Online Demo
+
+See the online base62 token generator & verifier in action:
+
+- [therootcompany.github.io/base62-token.js/](https://therootcompany.github.io/base62-token.js/).
+
 # Install
 
 ## Browser
@@ -104,7 +110,31 @@ Base62Token.encode(dict, n, pad); // encode a 32-bit int (i.e. CRC-32 checksum)
                                   // default pad of 6 (guarantees 32-bits).
 ```
 
-# Standard vs Secure Base62 Dictionaries
+# Base62 Token Spec
+
+## GitHub Token Breakdown
+
+The 40-character tokens are broken down into 3 consecutive parts:
+
+`pre_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcccccc`
+
+- **Prefix**: 4-char (ex: `ghx_`)
+- **Entropy**: 30-char (178-bits + leading 0 padding)
+  - `BITS_PER_CHAR = Math.log(62) / Math.log(2) // about 5.9541`
+  - `BITS_PER_CHAR * 30 // about 178.6258`
+- **Checksum**: 6-char CRC32 (32-bits, 4 bytes, 6 base62 characters)
+  - `BITS_PER_CHAR * 5 // about 35.7251`
+
+| Prefix | Entropy                        | Checksum |
+| -----: | :----------------------------- | :------- |
+|  pre\_ | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx | cccccc   |
+
+See
+
+- https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
+- https://github.blog/changelog/2021-09-23-npm-has-a-new-access-token-format/
+
+## Standard vs Secure Base62 Dictionaries
 
 There are 3 widely-used, generic Base62 dictionaries, all of which are based on
 the alphanumeric character set (i.e. 0-9, A-Z, a-z).
