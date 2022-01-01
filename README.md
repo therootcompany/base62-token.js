@@ -1,4 +1,4 @@
-# base62-token.js
+# [base62-token.js](https://github.com/therootcompany/base62-token.js)
 
 Generate &amp; Verify [GitHub-style][gh-tokens] &amp; [npm-style][npm-tokens]
 Secure Base62 Tokens
