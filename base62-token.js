@@ -59,21 +59,17 @@
   function _encode(alphabet, n, pad = 6) {
     var base = alphabet.length;
     // the ratio of how many extra characters to expect vs bytes
-    var ratio = Math.log(256) / Math.log(2) / (Math.log(base) / Math.log(2));
-    pad = pad ?? Math.ceil(4 * ratio);
+    pad = pad ?? Math.ceil(4 * (Math.log(256) / Math.log(base)));
 
     var register = [];
-    var index;
-    var exp = Math.floor(Math.log(n) / Math.log(base));
-    // denomination
-    var d;
 
-    while (exp >= 0) {
-      d = Math.pow(base, exp);
-      index = Math.floor(n / d);
-      register.push(alphabet[index]);
-      n = n % d;
-      exp -= 1;
+    // remainder
+    var r;
+    while (n > 0) {
+      r = n % base;
+      register.unshift(alphabet[r]);
+      n -= r;
+      n = n / base;
     }
 
     return register.join("").padStart(pad, alphabet[0]);
