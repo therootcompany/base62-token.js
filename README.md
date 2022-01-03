@@ -120,7 +120,7 @@ const CHECKSUM_LEN = 6
 func GenerateBase62Token(prefix string, len int) string {
     entropy := []string{}
     for 0..len {
-        index := math.RandomInt(62) // 0..61
+        index := crypto.RandomInt(62) // 0..61
         char := DICT[index]
         entropy = append(entropy, char)
     }
