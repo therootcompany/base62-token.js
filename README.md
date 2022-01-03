@@ -42,10 +42,10 @@ var Base62Token = require("base62-token");
 # Usage
 
 ```js
+var dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 var b62Token = Base62Token.create(dict);
 
 var token = b62Token.generate("abc_", 30);
-
 var verified = b62Token.verify(token);
 ```
 
