@@ -79,6 +79,13 @@
     });
   console.info("PASS: verified 20 actual, real-world GitHub tokens");
 
+  var longPrefix = "MoreThanFour_51PEHKkZR5PsBlXhMnRztYvUcl5km24cVLUu";
+
+  if(!b62Token.verify(longPrefix)) {
+    throw new Error("Valid token with long prefix should verify");
+  }
+  console.info("PASS: verified token with prefix greater than four characters");
+
   console.info("");
   console.info("All tests pass.");
   console.info("");
