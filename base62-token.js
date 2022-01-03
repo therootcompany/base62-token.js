@@ -76,9 +76,9 @@
   }
 
   function _generate(alphabet, pre, charlen) {
-    var entropy = pre + _rnd(alphabet, charlen);
+    var entropy = _rnd(alphabet, charlen);
     // Under the hood: new TextEncoder().encode(entropy)
-    var token = entropy + _checksum(alphabet, entropy);
+    var token = pre + entropy + _checksum(alphabet, entropy);
     return token;
   }
 
@@ -90,7 +90,9 @@
   }
 
   function _verify(alphabet, token) {
-    var entropy = token.slice(0, -6);
+    // skip first 4 (the prefix)
+    // exclude last 6 (the checksum)
+    var entropy = token.slice(4, -6);
     var crc = token.slice(-6);
     return crc === _checksum(alphabet, entropy);
   }
@@ -155,11 +157,8 @@
    * @params {String} alphabet - a base62 dictionary (may be sorted in any order)
    * @returns {String} - a randomized (secure) dictionary, with an entropy of 62!
    */
-  function _generateDictionary(alphabet = ALPHABET) {
-    if ("string" === typeof alphabet) {
-      alphabet = alphabet.trim().split("");
-    }
-    return _shuffle(alphabet).join("");
+  function _generateDictionary() {
+    return ALPHABET;
   }
 
   var Base62Token = {

@@ -1,7 +1,7 @@
 # [base62-token.js](https://github.com/therootcompany/base62-token.js)
 
 Generate &amp; Verify [GitHub-style][gh-tokens] &amp; [npm-style][npm-tokens]
-Secure Base62 Tokens
+Base62 Tokens
 
 [gh-tokens]:
   https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
@@ -12,7 +12,7 @@ Works in Vanilla JS (Browsers), Node.js, and Webpack.
 
 # [Online Demo](https://therootcompany.github.io/base62-token.js/)
 
-See the online base62 token generator & verifier in action:
+See the online Base62 token generator & verifier in action:
 
 - <https://therootcompany.github.io/base62-token.js/>
 
@@ -41,29 +41,6 @@ var Base62Token = require("base62-token");
 
 # Usage
 
-## Pre-requisite: Generate & Save a Dictionary
-
-If you intend to reap the additional security benefits of having a secure random
-dictionary - meaning that you give yourself the ability to verify tokens
-"offline" without also giving potential attackers the same capability - then you
-should generate a random dictionary:
-
-```js
-var alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-var dict = Base62Token.generateDictionary(alphanum);
-// ex: "vG1SB0JMrONaT7ChDfqtnxY4lHwQ8ILoFWRUgPk9mbzjX2Asy6iVEuKcdeZ35p"
-```
-
-Save this random dictionary to a non-public file or configuration (ex: `.env`)
-and use it everywhere that you generate or verify tokens.
-
-Note: there's nothing inherently "insecure" about making this dictionary public
-_per se_, but doing so will give attackers the same advantage that you give
-yourself - the ability to verify your tokens offline without being slowed down
-by database calls or hitting any API rate limits, etc.
-
-## Generating & Verifying Tokens
-
 ```js
 var b62Token = Base62Token.create(dict);
 
@@ -75,10 +52,8 @@ var verified = b62Token.verify(token);
 # API
 
 ```txt
-Base62Token                       // Shuffles a given alphabet to create a
-  .generateDictionary(            // random dictionary (uses standard base62
-    alphabet = "0..9A..Za..z"     // / alphanumeric by default).
-  );
+Base62Token.generateDictionary(); // Return the Lexographic (a.k.a. GMP)
+                                  // Base62 dictionary.
 
 Base62Token.create(dictionary);   // Creates a token generator and verifier
                                   // 'dictionary' is any 62-char alphabet.
@@ -123,6 +98,7 @@ The 40-character tokens are broken down into 3 consecutive parts:
   - `BITS_PER_CHAR = Math.log(62) / Math.log(2) // about 5.9541`
   - `BITS_PER_CHAR * 30 // about 178.6258`
 - **Checksum**: 6-char CRC32 (32-bits, 4 bytes, 6 base62 characters)
+  - (of entropy-only, not prefix)
   - `BITS_PER_CHAR * 5 // about 35.7251`
 
 | Prefix | Entropy                        | Checksum |
@@ -134,12 +110,32 @@ See
 - https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
 - https://github.blog/changelog/2021-09-23-npm-has-a-new-access-token-format/
 
-## Standard vs Secure Base62 Dictionaries
+## Pseudocode
+
+```go
+const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+// prefix is like 'ghp_', 'gho_', etc
+func GenerateBase62Token(prefix string, len int) string {
+    entropy := []
+    for 0..len {
+        index := math.RandomInt(62)
+        entropy = append(entropy, dict[index])
+    }
+    chksum := crc32.Checksum(entropy) // uint32
+
+    pad := 6
+    // ex: "ghp_" + "zQWBuTSOoRi4A9spHcVY5ncnsDkxkJ" + "0mLq17"
+    return prefix + string(entropy) + base62.Encode(dict, chksum, pad)
+}
+```
+
+## Standard Base62 Dictionaries
 
 There are 3 widely-used, generic Base62 dictionaries, all of which are based on
 the alphanumeric character set (i.e. 0-9, A-Z, a-z).
 
-For general encoding and decoding (NOT tokens), you should use one of these:
+For general encoding and decoding, you should use one of these:
 
 - Lexographic (digits, upper, lower)
   ```txt
@@ -154,9 +150,7 @@ For general encoding and decoding (NOT tokens), you should use one of these:
   ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
   ```
 
-However, **for secure tokens** for which you don't want an attacker to have the
-advantage of being able to verify a token offline (i.e. you want them to hit
-your API rate limiting), you should use a randomized dictionary.
+GitHub and NPM use the Lexographic (a.k.a. GMP) Base62 alphabet.
 
 # Legal
 

@@ -44,6 +44,41 @@
   }
   console.info("PASS: invalid tokens and/or dictionaries fail verification");
 
+  var fixtures = `
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+    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
+  `;
+  fixtures
+    .trim()
+    .split(/\n/)
+    .forEach(function (token) {
+      token = token.trim();
+      if (!b62Token.verify(token)) {
+        throw new Error(
+          `Failed to verify actual, real-world GitHub token: ${token}`
+        );
+      }
+    });
+  console.info("PASS: verified 20 actual, real-world GitHub tokens");
+
   console.info("");
   console.info("All tests pass.");
   console.info("");
