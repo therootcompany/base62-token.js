@@ -91,9 +91,9 @@
   }
 
   function _verify(alphabet, token) {
-    // skip first 4 (the prefix)
+    // everything before first _ is prefix, so start directly after first _
     // exclude last 6 (the checksum)
-    var entropy = token.slice(4, -6);
+    var entropy = token.slice(token.indexOf('_') + 1, -6);
     var crc = token.slice(-6);
     return crc === _checksum(alphabet, entropy);
   }
