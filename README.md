@@ -113,20 +113,32 @@ See
 ## Pseudocode
 
 ```go
-const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+const DICT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+const PREFIX_LEN = 4
+const CHECKSUM_LEN = 6
 
-// prefix is like 'ghp_', 'gho_', etc
 func GenerateBase62Token(prefix string, len int) string {
-    entropy := []
+    entropy := []string{}
     for 0..len {
-        index := math.RandomInt(62)
-        entropy = append(entropy, dict[index])
+        index := math.RandomInt(62) // 0..61
+        char := DICT[index]
+        entropy = append(entropy, char)
     }
     chksum := crc32.Checksum(entropy) // uint32
 
-    pad := 6
+    pad := CHECKSUM_LEN
+    chksum62 := base62.Encode(DICT, chksum, pad)
+
     // ex: "ghp_" + "zQWBuTSOoRi4A9spHcVY5ncnsDkxkJ" + "0mLq17"
-    return prefix + string(entropy) + base62.Encode(dict, chksum, pad)
+    return prefix + string(entropy) + chksum62
+}
+
+func VerifyBase62Token(token string) bool {
+    // prefix is not used
+    entropy := token[PREFIX_LEN:len(token)-CHECKSUM_LEN]
+    chksum := base62.Decode(DICT, token[len(token)-CHECKSUM_LEN:]) // uint32
+
+    return crc32.Checksum(entropy) == chksum
 }
 ```
 

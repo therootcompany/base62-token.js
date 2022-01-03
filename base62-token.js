@@ -7,6 +7,7 @@
 
   let CRC32 = exports.CRC32 || require("crc-32");
 
+  // Knuth-Shuffle gives an even distribution, even when the random function does not
   // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   function _shuffle(array) {
     var currentIndex = array.length;
